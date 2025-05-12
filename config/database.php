@@ -1,5 +1,5 @@
 <?php
-// Cargar variables de entorno desde .env si existe
+// Solo en local: cargar desde .env si existe
 if (file_exists(__DIR__ . '/../.env')) {
     $env = parse_ini_file(__DIR__ . '/../.env');
     foreach ($env as $key => $value) {
@@ -8,16 +8,16 @@ if (file_exists(__DIR__ . '/../.env')) {
     }
 }
 
-// Usar variables de entorno con valores por defecto para desarrollo local
-define('DB_HOST', getenv('DB_HOST') ?: '127.0.0.1');
-define('DB_USER', getenv('DB_USER') ?: 'root');
-define('DB_PASS', getenv('DB_PASS') ?: '');
-define('DB_NAME', getenv('DB_NAME') ?: 'bitacora_crm');
+session_start();
+$DB_HOST = $_ENV["DB_HOST"] ?? '127.0.0.1';
+$DB_USER = $_ENV["DB_USER"] ?? 'root';
+$DB_PASSWORD = $_ENV["DB_PASSWORD"] ?? '';
+$DB_NAME = $_ENV["DB_NAME"] ?? 'bitacora_crm';
+$DB_PORT = $_ENV["DB_PORT"] ?? '3306';
 
-try {
-    $conn = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    die("Error de conexión: " . $e->getMessage());
+$conn = mysqli_connect($DB_HOST, $DB_USER, $DB_PASSWORD, $DB_NAME, $DB_PORT);
+
+if (!$conn) {
+    die("Conexión fallida: " . mysqli_connect_error());
 }
-?> 
+?>
