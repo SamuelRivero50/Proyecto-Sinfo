@@ -1,52 +1,75 @@
-# Bitácora CRM - MVP de Registro por Voz
+# Sistema de Bitácora CRM
 
-## Descripción
-Este proyecto es un MVP de una bitácora para CRM que permite registrar información de prospectos y actividades usando reconocimiento de voz en el navegador. El usuario puede dictar los datos de cada campo o usar un botón para dictar toda la secuencia de campos relevantes.
-
-## Características principales
-- Formulario de bitácora con campos: Estado, Temperatura, Nombre, Valor, Descripción, Adjunto, Oportunidad, Tarea, Próxima acción, Hora y Contacto.
-- Botón de micrófono en cada campo para dictar solo ese campo.
-- Botón principal "Dictar todo" para dictar todos los campos importantes en secuencia.
-- Indicaciones visuales claras en la parte superior de la pantalla durante el dictado.
-- **Conexión a base de datos MySQL** para guardar los registros de la bitácora.
-- Solo usa PHP para servir el archivo (no frameworks).
-- Compatible con Google Chrome y Microsoft Edge.
+## Características
+- Reconocimiento de voz para entrada de datos
+- Interfaz intuitiva y fácil de usar
+- Almacenamiento de datos en base de datos MySQL
+- Soporte para archivos adjuntos
+- Conexión a base de datos MySQL configurable mediante variables de entorno
 
 ## Requisitos
-- Google Chrome o Microsoft Edge (la Web Speech API no funciona en Firefox).
-- Conexión a internet (la API de voz usa servicios de Google).
-- Permitir el acceso al micrófono cuando el navegador lo solicite.
-- Servir el proyecto desde `localhost` o HTTPS (no abrir el archivo directamente con `file:///`).
-- Tener PHP instalado (para el servidor local).
-- Tener MySQL instalado y configurado.
+- PHP 7.4 o superior
+- MySQL 5.7 o superior
+- Navegador web moderno con soporte para reconocimiento de voz
+- Servidor web (Apache/Nginx)
 
-## Cómo ejecutar el proyecto localmente
-1. Descarga o clona este repositorio en tu computadora.
-2. Crea una base de datos MySQL llamada `bitacora_crm`.
-3. Importa el archivo `database.sql` en tu base de datos para crear la tabla `bitacora`.
-4. Abre una terminal en la carpeta del proyecto.
-5. Ejecuta el siguiente comando para iniciar el servidor local de PHP:
-   ```sh
-   php -S localhost:8000
+## Configuración del Proyecto
+
+### 1. Clonar el repositorio
+```bash
+git clone [URL_DEL_REPOSITORIO]
+cd Proyecto-Sinfo
+```
+
+### 2. Configurar la base de datos
+1. Crear una base de datos MySQL llamada `bitacora_crm`
+2. Importar el archivo `database.sql` en tu servidor MySQL
+3. Copiar el archivo `.env.example` a `.env`:
+   ```bash
+   cp .env.example .env
    ```
-6. Abre tu navegador (Chrome o Edge) y visita:
-   [http://localhost:8000/index.php](http://localhost:8000/index.php)
-7. Permite el acceso al micrófono cuando el navegador lo solicite.
-8. Usa los botones de micrófono para dictar cada campo o el botón "Dictar todo" para dictar la secuencia completa.
+4. Editar el archivo `.env` con tus credenciales de base de datos:
+   ```
+   DB_HOST=tu_host
+   DB_USER=tu_usuario
+   DB_PASS=tu_contraseña
+   DB_NAME=bitacora_crm
+   ```
+
+### 3. Configurar el servidor web
+- Asegúrate de que el servidor web apunte al directorio del proyecto
+- Configura los permisos necesarios para la carpeta `uploads/`
+
+### 4. Acceder a la aplicación
+- Abre tu navegador y ve a `http://localhost/Proyecto-Sinfo`
 
 ## Estructura del código
-- `index.php`: Contiene el formulario, el diseño y la estructura principal de la interfaz.
-- `js/voiceRecognition.js`: Lógica de reconocimiento de voz, manejo de botones, secuencia de dictado y mensajes de estado.
-- `config/database.php`: Configuración de la conexión a la base de datos MySQL.
-- `save_bitacora.php`: Lógica para guardar los datos en la base de datos.
-- `database.sql`: Script SQL para crear la base de datos y la tabla `bitacora`.
-- `README.md`: Este archivo de ayuda.
+- `index.html`: Página principal con el formulario
+- `js/voiceRecognition.js`: Lógica de reconocimiento de voz
+- `css/styles.css`: Estilos de la aplicación
+- `config/database.php`: Configuración de la conexión a la base de datos
+- `save_bitacora.php`: Script para guardar los datos en la base de datos
+- `uploads/`: Directorio para archivos adjuntos
+
+## Despliegue en Railway
+1. Crear una cuenta en Railway
+2. Crear un nuevo proyecto
+3. Conectar con tu repositorio de GitHub
+4. Configurar las variables de entorno en Railway:
+   - DB_HOST
+   - DB_USER
+   - DB_PASS
+   - DB_NAME
+5. Railway detectará automáticamente que es una aplicación PHP y la desplegará
 
 ## Notas y recomendaciones
-- Si ves un error de red (network), asegúrate de estar usando `localhost` y no `file:///`.
-- Si el reconocimiento de voz no funciona, revisa los permisos del micrófono (icono de candado en la barra de direcciones).
-- Si tienes extensiones de privacidad, VPN o firewall, podrían bloquear la API de voz.
-- Asegúrate de que la base de datos MySQL esté en ejecución y que los datos de conexión en `config/database.php` sean correctos.
+- Asegúrate de que la base de datos esté correctamente configurada antes de usar la aplicación
+- Verifica que la carpeta `uploads/` tenga los permisos correctos (777 para desarrollo, más restrictivos para producción)
+- Para desarrollo local, puedes usar los valores por defecto en `config/database.php`
+- Para producción, siempre usa variables de entorno para las credenciales de la base de datos
+- Railway proporcionará una URL pública para acceder a tu aplicación
 
-## Créditos
-Desarrollado como MVP para pruebas de funcionalidad de registro por voz en CRM.
+## Solución de problemas
+- Si la base de datos no se conecta, verifica las credenciales en el archivo `.env`
+- Si los archivos no se suben, verifica los permisos de la carpeta `uploads/`
+- Si el reconocimiento de voz no funciona, asegúrate de usar un navegador compatible y tener un micrófono conectado
