@@ -216,13 +216,77 @@ document.addEventListener('DOMContentLoaded', function() {
         // Check if required fields are filled
         const nombre = document.getElementById('nombre').value.trim();
         if (!nombre) {
-            statusDiv.textContent = "El nombre es obligatorio.";
-            statusDiv.className = 'error';
+            showStatus("El nombre es obligatorio.", 'error');
             return;
         }
+
+        // Formato de fecha: DD/MM/AAAA a YYYY-MM-DD
+        const proximaAccionInput = document.getElementById('proximaAccion');
+        let proximaAccion = proximaAccionInput.value.trim();
+        if (proximaAccion) {
+            const fechaParts = proximaAccion.split('/');
+            if (fechaParts.length === 3) {
+                // Si el usuario puso DD/MM/AAAA
+                proximaAccion = `${fechaParts[2]}-${fechaParts[1].padStart(2, '0')}-${fechaParts[0].padStart(2, '0')}`;
+            }
+        } else {
+            proximaAccion = '';
+        }
+        proximaAccionInput.value = proximaAccion;
+
+        // Formato de hora: HH:MM AM/PM a HH:MM:SS (24h)
+        const horaInput = document.getElementById('hora');
+        let hora = horaInput.value.trim();
+        if (hora) {
+            // Si el usuario puso AM/PM
+            let match = hora.match(/^(\d{1,2}):(\d{2})\s*([APap][Mm])$/);
+            if (match) {
+                let h = parseInt(match[1], 10);
+                const m = match[2];
+                const ampm = match[3].toUpperCase();
+                if (ampm === 'PM' && h < 12) h += 12;
+                if (ampm === 'AM' && h === 12) h = 0;
+                hora = `${h.toString().padStart(2, '0')}:${m}:00`;
+            } else if (/^\d{1,2}:\d{2}$/.test(hora)) {
+                // Si el usuario puso solo HH:MM
+                hora = `${hora}:00`;
+            }
+        } else {
+            hora = '';
+        }
+        horaInput.value = hora;
+
+        // Create FormData object
+        const formData = new FormData(this);
         
-        // For MVP, just show confirmation
-        statusDiv.textContent = "Prospecto guardado exitosamente (simulado para MVP)";
-        statusDiv.className = 'success';
+        // Add the file if it exists
+        const adjuntoFile = document.getElementById('adjuntoFile');
+        if (adjuntoFile.files.length > 0) {
+            formData.append('adjuntoFile', adjuntoFile.files[0]);
+        }
+
+        // Show loading status
+        showStatus("Guardando...", 'listening');
+        
+        // Send AJAX request
+        fetch('save_bitacora.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showStatus(data.message, 'success');
+                // Clear form after successful save
+                this.reset();
+                // Reset all radio buttons
+                document.querySelectorAll('input[type="radio"]').forEach(radio => radio.checked = false);
+            } else {
+                showStatus(data.message, 'error');
+            }
+        })
+        .catch(error => {
+            showStatus("Error al guardar: " + error.message, 'error');
+        });
     });
 }); 
