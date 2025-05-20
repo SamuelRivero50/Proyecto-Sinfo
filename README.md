@@ -1,6 +1,6 @@
 # Bitácora CRM - MVP de Registro por Voz
 
-**Acceso en línea:** [http://mvpsinfo.free.nf/?i=1](http://mvpsinfo.free.nf/?i=1)
+**Acceso en línea:** [https://mvpsinfo.free.nf/?i=1](http://mvpsinfo.free.nf/?i=1)
 
 ## Descripción
 Este proyecto es un MVP de una bitácora para CRM que permite registrar información de prospectos y actividades usando reconocimiento de voz en el navegador. El usuario puede dictar los datos de cada campo o usar un botón para dictar toda la secuencia de campos relevantes.
