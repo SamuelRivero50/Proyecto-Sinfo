@@ -1,0 +1,8 @@
+"Necesito resolver el siguiente problema de álgebra lineal. Por favor, guíame a través del proceso paso a paso, explicando cada etapa de manera clara y concisa. Asegúrate de:
+
+Identificar el tipo de problema: (Ej: resolución de sistemas de ecuaciones lineales, cálculo de determinantes, encontrar valores y vectores propios, transformaciones lineales, espacios vectoriales, etc.)
+Especificar los conceptos y teoremas clave que se aplicarán para resolver este problema.
+Detallar cada paso del cálculo de forma organizada. Si es posible, utiliza notación matricial y muestra las operaciones elementales de fila (si aplica).
+Verificar la solución al final, si es posible, o explicar cómo se podría verificar.
+Señalar posibles errores comunes o puntos críticos a tener en cuenta durante la resolución de este tipo de ejercicio.
+Si hay múltiples métodos de solución, menciona brevemente las alternativas y por qué el método elegido es eficiente o apropiado para este caso.

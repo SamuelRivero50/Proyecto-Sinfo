@@ -1,5 +1,7 @@
 # Bitácora CRM - MVP de Registro por Voz
 
+**Acceso en línea:** [http://mvpsinfo.free.nf/?i=1](http://mvpsinfo.free.nf/?i=1)
+
 ## Descripción
 Este proyecto es un MVP de una bitácora para CRM que permite registrar información de prospectos y actividades usando reconocimiento de voz en el navegador. El usuario puede dictar los datos de cada campo o usar un botón para dictar toda la secuencia de campos relevantes.
 
@@ -41,6 +43,40 @@ Este proyecto es un MVP de una bitácora para CRM que permite registrar informac
 - Si el reconocimiento de voz no funciona, revisa los permisos del micrófono (icono de candado en la barra de direcciones).
 - Si tienes extensiones de privacidad, VPN o firewall, podrían bloquear la API de voz.
 - El MVP no guarda datos en ningún lado, solo muestra una alerta de éxito.
+
+## Conexión a la base de datos
+
+En desarrollo local, la conexión a la base de datos se realiza usando XAMPP. Para ello, asegúrate de tener el servidor MySQL de XAMPP corriendo y utiliza la siguiente configuración en tu archivo `config/database.php`:
+
+```php
+// Ejemplo de conexión local con XAMPP
+define('DB_SERVER', 'localhost');
+define('DB_USERNAME', 'root');
+define('DB_PASSWORD', ''); // Por defecto, sin contraseña en XAMPP
+define('DB_DATABASE', 'nombre_de_tu_base_de_datos');
+
+$conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+if ($conn->connect_error) {
+    die('Connection failed: ' . $conn->connect_error);
+}
+```
+
+En producción (por ejemplo, en InfinityFree), debes cambiar estos valores por los proporcionados por tu hosting, como se muestra a continuación:
+
+```php
+// Ejemplo de conexión en InfinityFree
+define('DB_SERVER', 'sql209.infinityfree.com');
+define('DB_USERNAME', 'if0_39036584');
+define('DB_PASSWORD', '4ydxIY4zUYjV');
+define('DB_DATABASE', 'if0_39036584_bitacora_crm');
+
+$conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+if ($conn->connect_error) {
+    die('Connection failed: ' . $conn->connect_error);
+}
+```
+
+Asegúrate de subir el archivo `config/database.php` con la configuración adecuada según el entorno donde vayas a desplegar el proyecto.
 
 ## Créditos
 Desarrollado como MVP para pruebas de funcionalidad de registro por voz en CRM.
